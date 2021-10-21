@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <string_view>
 
 class Plants : public Animal {
 	Behavior plant;
