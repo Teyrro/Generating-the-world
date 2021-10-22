@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animal.cpp" />
+    <ClCompile Include="Array.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="Engine_lite.cpp" />
     <ClCompile Include="Herbivore.cpp" />
@@ -151,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animal.h" />
+    <ClInclude Include="Array.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="Engine_lite.h" />
     <ClInclude Include="Herbivore.h" />

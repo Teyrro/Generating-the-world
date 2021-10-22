@@ -7,26 +7,24 @@
 #include <memory>
 #include <vector>
 
-class Engine_lite {
-public:
+struct Engine_lite {
+	Plants* a = new Plants[7];
+	Herbivore* b = new Herbivore[5];
+	Predator* c = new Predator[3];
 	Data Map;
-	std::vector<Animal> array_all_classes;
-	Engine_lite() : array_all_classes(15), Map() {
+	int size = 15;
+	std::vector<Animal*> array_all_classes;
+	Engine_lite() : array_all_classes(size), Map() {
 		array_all_classes.resize(0);
-		auto a = std::make_unique<Plants[]>(7);
-		auto b = std::make_unique<Herbivore[]>(5);
-		auto c = std::make_unique<Predator[]>(3);
-		for (int i = 0; i < array_all_classes.size(); i++) {
-			if (i < 9)
-				array_all_classes.push_back(std::move(a[i]));
-			else if (i < 14)
-				array_all_classes.push_back(std::move(b[i]));
-			else if (i > 14)
-				array_all_classes.push_back(std::move(c[i]));
+		for (int i(0); i < size; i++) {
+			if (i < 7)
+				array_all_classes.push_back(&a[i]);
+			else if (i < 12)
+					array_all_classes.push_back(&b[i%5]);
+			else if (i >= 12)
+					array_all_classes.push_back(&c[i%3]);
 		}
-
-
-
-	}
+		Map.creature_generation(array_all_classes);
+	}	
 };
 

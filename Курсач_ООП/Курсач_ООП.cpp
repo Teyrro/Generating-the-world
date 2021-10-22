@@ -3,5 +3,5 @@
 
 int main() {
 	Engine_lite a;
-	
+	std::cout << a.Map;
 }

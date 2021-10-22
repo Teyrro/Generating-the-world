@@ -19,7 +19,7 @@ public:
 	}
 
 	virtual std::string_view get_id() {
-		return nullptr;
+		return "NULL";
 	}
 
 	sf::Vector2f& get_coord() {
