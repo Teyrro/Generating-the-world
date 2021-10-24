@@ -1,7 +1,7 @@
 ﻿#include "Engine_lite.h"
 
 #include "SFML/Graphics.hpp"
-
+#include<windows.h>
 #include <iostream>
 
 
@@ -12,15 +12,15 @@ int main() {
 
 
 	Engine_lite a;
+	std::cout << a.Map << "\n";
+	int i = 0;
 	while (true) {
-		float time(clock.getElapsedTime().asMilliseconds());
 
-		//std::cout << time << " ";
-
-		if (time == 2000) {
-			a.Map.update(a.array_all_classes);
-			std::cout << a.Map << "\n";
-			clock.restart();
-		}
+		Sleep(2000);
+		i++;
+		std::cout << "Период: " << i << "\n";
+		a.Map.update(a.array_all_classes);
+		std::cout << a.Map << "\n";
+		
 	}
 }

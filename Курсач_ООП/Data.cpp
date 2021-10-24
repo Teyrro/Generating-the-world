@@ -17,8 +17,11 @@ void Data::creature_generation(std::list<Animal*>& object) {
 	nonRecRand(index, 100);
 
 	auto it(object.begin());
-	for (unsigned long i(0); i < index.size(); i++, it++)
-		map[index[i] / 10 + 1][index[i] % 10 + 1] = (*it)->get_id();
+	for (unsigned long i(0); i < index.size(); i++, it++) {
+		(*it)->set_coord(index[i] / 10 + 1, index[i] % 10 + 1);
+		map[(*it)->get_coord().y][(*it)->get_coord().x] = (*it)->get_id();
+	}
+		
 }
 
 // Вывод текстовой карты
@@ -77,21 +80,34 @@ void Data::randMove(sf::Vector2i& cord, std::string victim, int radius) {
 	}
 }
 
+void Data::deathForHunger(std::list<Animal*>& animals) {
+	for (auto it(animals.begin()); it != animals.end(); it++) {
+		if ((*it)->get_behavior().hunger <= 0) {
+			(*it)->set_is_dead(true);
+			map[(*it)->get_coord().y][(*it)->get_coord().x] = "0";
+		}
+			
+	}
+}
+
 // Графическое движение, ещё не пришло время
 void Data::move(std::list<Animal*>& animals) {
 
 	for (auto it(animals.begin()); it != animals.end(); it++) {
-		if (!(*it)->Is_dead())
-			if ((*it)->get_id() == "4")
-				if (((*it)->get_behavior().hunger > 0.2)) {
-					randMove((*it)->get_coord(), (*it)->get_id(), 1);
-					continue;
-				}
-				else {
-					check_desiredObj_and_eating((*it)->get_coord(), (*it)->get_id_victim(), 2);
-					continue;
-				}
-			else if ((*it)->get_id() == "3")
-				randMove((*it)->get_coord(), (*it)->get_id(), 3);
+			if (!(*it)->Is_dead()) {
+				(*it)->get_behavior().hunger -= 0.1;
+				if ((*it)->get_id() == "4")
+					if (((*it)->get_behavior().hunger > 0.2)) {
+						randMove((*it)->get_coord(), (*it)->get_id_victim(), 1);
+						continue;
+					}
+					else {
+						check_desiredObj_and_eating((*it)->get_coord(), (*it)->get_id_victim(), 2);
+						continue;
+					}
+				else if ((*it)->get_id() == "3")
+					randMove((*it)->get_coord(), (*it)->get_id_victim(), 3);
+		}
+			
 	}
 }

@@ -43,10 +43,12 @@ public:
 
 	// Графическое движение, ещё не пришло время
 	void move(std::list<Animal*>& animals);
+	void deathForHunger(std::list<Animal*>& animals);
 
 	void update(std::list<Animal*>& animals) {
 		check_for_dead(animals);
 		move(animals);
+		deathForHunger(animals);
 	}
 
 	// Вывод текстовой карты

@@ -150,7 +150,7 @@
     <ClCompile Include="Herbivore.cpp" />
     <ClCompile Include="Plants.cpp" />
     <ClCompile Include="Predator.cpp" />
-    <ClCompile Include="Курсач_ООП.cpp" />
+    <ClCompile Include="wild.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animal.h" />
