@@ -9,6 +9,7 @@
 
 class Data {
 	const short m_size = 12;
+	static unsigned int period;
 
 protected:
 	static std::string map[12][12];
@@ -46,12 +47,24 @@ public:
 	void deathForHunger(std::list<Animal*>& animals);
 
 	void update(std::list<Animal*>& animals) {
-		check_for_dead(animals);
-		move(animals);
-		deathForHunger(animals);
+		
+		try {
+			check_for_dead(animals);
+			move(animals);
+			deathForHunger(animals);
+			period = ++period;
+			std::cout << "( " << period << " )\n";
+		}
+		catch (const char* excep) {
+			std::cout << "Вызвано исключение: " << excep;
+		}
+		catch (...) {
+			std::cout << "Вызвано исключение: NULL";
+		}
 	}
 
 	// Вывод текстовой карты
 	friend std::ostream& operator << (std::ostream& output_map, Data map);
 };
+
 

@@ -22,6 +22,9 @@ public:
 	bool const& Is_dead();
 	void set_coord(int&& x, int&& y);
 
+	virtual int const& getMoveTime() { throw "Вызвана getMove"; }
+	virtual void setMoveTime(int setMoveTime) { throw "Вызвана setMove"; }
+
 	virtual std::string get_id() {
 		throw NULL;
 	}

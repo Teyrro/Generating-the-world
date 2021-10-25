@@ -7,13 +7,18 @@
 
 class Herbivore : public Animal {
 	Behavior herbi;
+	int m_moveTime;
 public:
 	static std::string id_herbivore;
 	static std::string id_victim;
-	Herbivore(float hunger = 0.5, float chance = 0.25) : Animal() {
+	Herbivore(float hunger = 0.5, float chance = 0.25) : Animal(), m_moveTime(1) {
 		herbi.hunger = hunger;
 		herbi.The_probability_of_breeding = chance;
 	}
+
+	virtual int const& getMoveTime() { return m_moveTime; }
+	virtual void setMoveTime(int setMoveTime) { m_moveTime = setMoveTime; }
+
 	virtual Behavior& get_behavior() {
 		return herbi;
 	}

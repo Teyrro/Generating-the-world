@@ -6,7 +6,8 @@
 
 
 int main() {
-
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
 	sf::Clock clock;
 	//RenderWindow window(sf::VideoMode(640, 480), "Wild");
 
@@ -15,12 +16,16 @@ int main() {
 	std::cout << a.Map << "\n";
 	int i = 0;
 	while (true) {
-
-		Sleep(2000);
-		i++;
-		std::cout << "Период: " << i << "\n";
-		a.Map.update(a.array_all_classes);
-		std::cout << a.Map << "\n";
+		float time(clock.getElapsedTime().asMilliseconds());
 		
+		//std::cout << time << " ";
+
+		if (time == 2000) {
+			i++;
+			std::cout<<"Период: "<<i<<"\n";
+			a.Map.update(a.array_all_classes);
+			std::cout << a.Map << "\n";
+			clock.restart();
+		}
 	}
 }

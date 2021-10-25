@@ -1,12 +1,14 @@
 #include "Data.h"
 #include "Array.h"
-
+#include "Animal.h"
 #include <iostream>
 
 #include <list>
 #include <iterator>
 
 #include <string>
+
+unsigned int Data::period(1);
 
 // Заполнение карты пустотой 
 std::string Data::map[12][12]{};
@@ -92,12 +94,12 @@ void Data::deathForHunger(std::list<Animal*>& animals) {
 
 // Графическое движение, ещё не пришло время
 void Data::move(std::list<Animal*>& animals) {
-
 	for (auto it(animals.begin()); it != animals.end(); it++) {
 			if (!(*it)->Is_dead()) {
 				(*it)->get_behavior().hunger -= 0.1;
-				if ((*it)->get_id() == "4")
-					if (((*it)->get_behavior().hunger > 0.2)) {
+				if ((*it)->get_id() == "4") {
+
+					if (((*it)->get_behavior().hunger > 0.2 and period % (*it)->getMoveTime() == (*it)->getMoveTime())) {
 						randMove((*it)->get_coord(), (*it)->get_id_victim(), 1);
 						continue;
 					}
@@ -105,8 +107,13 @@ void Data::move(std::list<Animal*>& animals) {
 						check_desiredObj_and_eating((*it)->get_coord(), (*it)->get_id_victim(), 2);
 						continue;
 					}
-				else if ((*it)->get_id() == "3")
+					(*it)->setMoveTime(rand() % 3+1);
+				}
+				else if ((*it)->get_id() == "3" and period % (*it)->getMoveTime() == (*it)->getMoveTime()) {
 					randMove((*it)->get_coord(), (*it)->get_id_victim(), 3);
+					(*it)->setMoveTime(rand() % 3+1);
+				}
+					
 		}
 			
 	}
