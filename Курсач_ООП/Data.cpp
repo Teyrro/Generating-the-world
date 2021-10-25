@@ -1,6 +1,7 @@
 #include "Data.h"
 #include "Array.h"
 #include "Animal.h"
+
 #include <iostream>
 
 #include <list>
@@ -46,37 +47,42 @@ void Data::check_for_dead(std::list<Animal*>& animals) {
 
 //Проверка и поедание объекта
 // desired - жаждить(желать) объект
-void Data::check_desiredObj_and_eating(sf::Vector2i& cord, std::string desiredObj, int radius) {
+void Data::check_desiredObj_and_eating(Animal* animal, std::string desiredObj, int radius) {
 	for (int i(-radius); i <= radius; i++)
 		for (int j(-radius); j <= radius; j++) {
-			sf::Vector2i temp((cord.x + i), (cord.y + j));
+			sf::Vector2i temp((animal->get_coord().x + i), (animal->get_coord().y + j));
 			if ((temp.x) / m_size == 0 and (temp.y) / m_size == 0)
 				if (map[temp.y][temp.x] == desiredObj) {
-					map[temp.y][temp.x] = map[cord.y][cord.x];
-					map[cord.y][cord.x] = "0";
-					cord.x += i;
-					cord.y += j;
-					break;
+					map[temp.y][temp.x] = map[animal->get_coord().y][animal->get_coord().x];
+					map[animal->get_coord().y][animal->get_coord().x] = "0";
+					animal->set_coord(animal->get_coord().x + i, animal->get_coord().y + j);
+					(animal)->get_behavior().hunger += 0.2f;
+					return;
 				}
 		}
+
 }
 
 // Случайное движение
 // victim - жертва
-void Data::randMove(sf::Vector2i& cord, std::string victim, int radius) {
+void Data::randMove(Animal* animal, std::string victim, int radius) {
 
 	sf::Vector2i offset;
 	while (1) {
 		offset.x = radius - rand() % (2 * radius + 1);
 		offset.y = radius - rand() % (2 * radius + 1);
-		if ((cord.x + offset.x) / m_size == 0 and (cord.y + offset.y) / m_size == 0) {
-			sf::Vector2i temp((cord.x + offset.x), (cord.y + offset.y));
+		if ((animal->get_coord().x + offset.x) / m_size == 0 and (animal->get_coord().y + offset.y) / m_size == 0) {
+			sf::Vector2i temp((animal->get_coord().x + offset.x), (animal->get_coord().y + offset.y));
 			if ((offset.x != 0 or offset.y != 0) and (map[temp.y][temp.x] == "0" or map[temp.y][temp.x] == victim)) {
-				map[temp.y][temp.x] = map[cord.y][cord.x];
-				map[cord.y][cord.x] = "0";
-				cord.x += offset.x;
-				cord.y += offset.y;
-				break;
+				map[temp.y][temp.x] = map[animal->get_coord().y][animal->get_coord().x];
+				map[animal->get_coord().y][animal->get_coord().x] = "0";
+				*animal += offset;
+				if (map[temp.y][temp.x] == victim) {
+					(animal)->get_behavior().hunger += 0.2f;
+					return;
+				}
+				animal->get_behavior().hunger -= 0.2f;
+				return;
 			}
 		}
 	}
@@ -92,29 +98,38 @@ void Data::deathForHunger(std::list<Animal*>& animals) {
 	}
 }
 
+
+//void Data::sex(std::list<Animal*>& animals) {
+//
+//	auto it(animals.end());
+//	for (it;  (*it)->get_id() == "2" or it != animals.begin(); it--) {
+//		short int percent(1 / (*it)->get_behavior().The_probability_of_breeding), probability(rand() % percent);
+//		if (probability == 0)
+//
+//	}
+//}
+
 // Графическое движение, ещё не пришло время
 void Data::move(std::list<Animal*>& animals) {
 	for (auto it(animals.begin()); it != animals.end(); it++) {
-			if (!(*it)->Is_dead()) {
-				(*it)->get_behavior().hunger -= 0.1;
-				if ((*it)->get_id() == "4") {
+		if (!(*it)->Is_dead()) {
+			if ((*it)->get_id() == "4") {
 
-					if (((*it)->get_behavior().hunger > 0.2 and period % (*it)->getMoveTime() == (*it)->getMoveTime())) {
-						randMove((*it)->get_coord(), (*it)->get_id_victim(), 1);
+				if (period % (*it)->getMoveTime() == 0) {
+					if ((*it)->get_behavior().hunger < 0.4) {
+						check_desiredObj_and_eating((*it), (*it)->get_id_victim(), 2);
 						continue;
 					}
-					else {
-						check_desiredObj_and_eating((*it)->get_coord(), (*it)->get_id_victim(), 2);
-						continue;
-					}
-					(*it)->setMoveTime(rand() % 3+1);
+					randMove((*it), (*it)->get_id_victim(), 1);
+					continue;
 				}
-				else if ((*it)->get_id() == "3" and period % (*it)->getMoveTime() == (*it)->getMoveTime()) {
-					randMove((*it)->get_coord(), (*it)->get_id_victim(), 3);
-					(*it)->setMoveTime(rand() % 3+1);
-				}
-					
+				(*it)->setMoveTime(rand() % 3 + 1);
+			}
+			else if ((*it)->get_id() == "3") {
+					if (period % (*it)->getMoveTime() == 0)
+						randMove((*it), (*it)->get_id_victim(), 3);
+				(*it)->setMoveTime(rand() % 3 + 1);
+			}
 		}
-			
 	}
 }

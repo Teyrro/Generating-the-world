@@ -1,9 +1,11 @@
 #include "Array.h"
+
+#include <iostream>
 #include <vector>
 #include <ctime>
 
 void nonRecRand(std::vector<int>& arr, int maxRand) {
-    srand(time(NULL));
+    srand((unsigned int)time(NULL));
 
     //assert(arrSize > maxRand && "nonRecRand: неверные входные данные");
     int  prevRand = 0;

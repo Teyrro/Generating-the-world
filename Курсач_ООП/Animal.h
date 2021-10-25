@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+
 #include <memory>
 #include <string>
 
@@ -40,6 +41,10 @@ public:
 
 	sf::Vector2i& get_coord() {
 		return m_coord;
+	}
+
+	void operator +=(sf::Vector2i addendum) {
+		m_coord += addendum;
 	}
 
 	void my_draw();

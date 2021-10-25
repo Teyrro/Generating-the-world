@@ -1,9 +1,10 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include "Data.h"
 #include "Herbivore.h"
 #include "Plants.h"
 #include "Predator.h"
+
+#include <SFML/Graphics.hpp>
 
 #include <memory>
 

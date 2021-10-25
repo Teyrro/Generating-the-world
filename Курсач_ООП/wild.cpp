@@ -22,7 +22,7 @@ int main() {
 
 		if (time == 2000) {
 			i++;
-			std::cout<<"Период: "<<i<<"\n";
+			std::cout << "Период: " << i << "\n";
 			a.Map.update(a.array_all_classes);
 			std::cout << a.Map << "\n";
 			clock.restart();
