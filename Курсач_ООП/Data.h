@@ -38,10 +38,10 @@ public:
 	void check_for_dead(std::list<Animal*>& animals);
 
 	//Проверка и поедание объекта
-	void check_desiredObj_and_eating(Animal* animals, std::string desiredObj, int radius);
+	bool check_desiredObj_and_eating(Animal* animals, std::string desiredObj, int radius);
 
 	// Случайное движение
-	void randMove(Animal* animals, std::string victim, int radius);
+	void randMove(Animal* &animals, std::string victim, int radius);
 
 	// Графическое движение, ещё не пришло время
 	void move(std::list<Animal*>& animals);
@@ -49,14 +49,18 @@ public:
 	// Проверка на смерть от голода
 	void deathForHunger(std::list<Animal*>& animals);
 
-	//void sex(std::list<Animal*>& animals);
+
+	friend sf::Vector2i sex(Animal& animal);
+
+	void probability(std::list<Animal*>& animals);
 
 	void update(std::list<Animal*>& animals) {
-		
+
 		try {
 			check_for_dead(animals);
 			move(animals);
 			deathForHunger(animals);
+			//probability(animals);
 			period = ++period;
 			std::cout << "( " << period << " )\n";
 		}

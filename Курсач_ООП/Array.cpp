@@ -1,4 +1,6 @@
 #include "Array.h"
+#include "Animal.h"
+#include "Data.h"
 
 #include <iostream>
 #include <vector>
@@ -25,5 +27,14 @@ void arr::mix(std::vector<int>& arr) {
         c = arr[a];
         arr[a] = arr[b];
         arr[b] = c;
+    }
+}
+
+sf::Vector2i sex(Animal& animal) {
+    for (int i(animal.get_coord().y - 1); i <= animal.get_coord().y + 1; i++) {
+        for (int j(animal.get_coord().x - 1); j <= animal.get_coord().x + 1; j++) {
+            if (Data::map[i][j] == "0")
+                return sf::Vector2i(j, i);
+        }
     }
 }

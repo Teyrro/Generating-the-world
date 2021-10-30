@@ -19,9 +19,16 @@ public:
 		count_of_creatures++;
 	}
 
+	Animal(sf::Vector2i a) : m_coord(a), is_dead(false) {
+		count_of_creatures++;
+	}
+
 	void set_is_dead(bool set);
 	bool const& Is_dead();
 	void set_coord(int&& x, int&& y);
+	void set_coord(sf::Vector2i a) {
+		m_coord = a;
+	}
 
 	virtual int const& getMoveTime() { throw "Вызвана getMove"; }
 	virtual void setMoveTime(int setMoveTime) { throw "Вызвана setMove"; }
@@ -37,6 +44,10 @@ public:
 	//Обязательно Используйте исключения
 	virtual Behavior& get_behavior() {
 		throw " Вызов не переопределённой виртуальной фунции: behavior";
+	}
+
+	virtual Animal* init(sf::Vector2i) {
+		throw "Вызов из родительского класса";
 	}
 
 	sf::Vector2i& get_coord() {
