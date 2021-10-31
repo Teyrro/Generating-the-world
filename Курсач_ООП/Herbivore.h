@@ -11,7 +11,7 @@ class Herbivore : public Animal {
 public:
 	static std::string id_herbivore;
 	static std::string id_victim;
-	Herbivore(float hunger = 1, float chance = 1) : Animal(), m_moveTime(1) {
+	Herbivore(float hunger = 1, float chance = 0.25) : Animal(), m_moveTime(1) {
 		herbi.hunger = hunger;
 		herbi.The_probability_of_breeding = chance;
 	}
@@ -24,7 +24,8 @@ public:
 	}
 
 	virtual Animal* init(sf::Vector2i a) {
-		Animal* ptr = new Herbivore;
+		Herbivore* ptr = new Herbivore;
+		ptr->m_coord = a;
 		return ptr;
 	}
 
@@ -35,6 +36,7 @@ public:
 	virtual std::string get_id_victim() {
 		return id_victim;
 	}
+	virtual sf::Vector2i sex(std::string map[][12]);
 };
 
 

@@ -86,7 +86,7 @@ bool Data::check_desiredObj_and_eating(Animal* animal, std::string desiredObj, i
 void Data::randMove(Animal* &animal, std::string victim, int radius) {
 
 	sf::Vector2i offset;
-	while (1) {
+	for (int i(0); i < 25; i++) {
 		offset.x = radius - rand() % (2 * radius + 1);
 		offset.y = radius - rand() % (2 * radius + 1);
 		if ((animal->get_coord().x + offset.x) / m_size == 0 and (animal->get_coord().y + offset.y) / m_size == 0) {
@@ -112,7 +112,7 @@ void Data::deathForHunger(std::list<Animal*>& animals) {
 	auto it(animals.begin());
 	while( it != animals.end()) {
 		//std::cout << "\n\t" << map[(*it)->get_coord().y][(*it)->get_coord().x] << "[" << (*it)->get_coord().x << ";" << (*it)->get_coord().y << "] : " << (*it)->get_behavior().hunger << "\n";
-		if ((*it)->get_behavior().hunger <= 0.001 && (*it)->get_behavior().hunger >= -0.001) {
+		if ((*it)->get_behavior().hunger <= 0.01) {
 			auto itTemp(it);
 			
 			//(*it)->set_is_dead(true);
@@ -126,45 +126,82 @@ void Data::deathForHunger(std::list<Animal*>& animals) {
 	}
 }
 
-void Data::probability(std::list<Animal*>& animals) {
+void Data::addAnimal(std::list<Animal*>::iterator &it, std::list<Animal*>& animals, std::string id) {
+	Animal* newAnimal;
+	if (id == "2") newAnimal = new Plants;
+	else if (id == "3") newAnimal = new Herbivore;
+	else newAnimal = new Predator;
+	sf::Vector2i coord_new_animal(newAnimal->sex(map));
+	if (coord_new_animal.x == -1) {
+		delete newAnimal;
+		return;
+	}
+		
+	if(id == "3")
+		(*it)->get_behavior().hunger -= 0.4;
+	map[coord_new_animal.y][coord_new_animal.x] = id;
+	newAnimal->set_coord(coord_new_animal);
+	animals.insert(it, newAnimal);
+	//animals.insert(it, newAnimal->init(coord_new_animal));
+}
+
+void Data::probability(std::list<Animal*>& animals, int period) {
 	auto it(animals.begin());
-	advance(it, (*it)->count_of_creatures - 1);
-	for (it; (*it)->get_id() != "2" or it != animals.begin(); it--) {
+	Plants tempPlants;
+	if (period % tempPlants.getLifeTime() == 0) {
+		addAnimal(it, animals, "2");
+		tempPlants.setLifeTime(rand() % 2 + 1);
+	}
+		
+	it = animals.end();
+	it--;
+	//advance(it, (*it)->count_of_creatures - 1);
 
-		if ((*it)->get_behavior().hunger <= 0.2f) {
-			unsigned short percent(1 / (*it)->get_behavior().The_probability_of_breeding), probability(rand() % percent);
-			//unsigned short lucky_value(rand() % percent);
-			if (probability == 0) {
-				sf::Vector2i coord_new_animal(sex(*(*it)));
-				map[coord_new_animal.y][coord_new_animal.x] = (*it)->get_id();
-				animals.insert(it, (*it)->init(coord_new_animal));
-
+	int predat_count(0);
+	for (it; (*it)->get_id() != "2" and it != animals.begin(); it--) {
+		if ((*it)->get_id() != "4") {
+			if ((*it)->get_behavior().hunger >= 0.39f) {
+				unsigned short percent(1 / (*it)->get_behavior().The_probability_of_breeding), probability(rand() % percent);
+				if (probability == 0) {
+					//sf::Vector2i coord_new_animal(sex(*(*it)));
+					addAnimal(it, animals, (*it)->get_id());
+				}
 			}
 		}
+		else predat_count++;
 	}
+
+	for (predat_count; predat_count < 2; predat_count++) {
+		it = animals.end();
+		it--;
+		addAnimal(it, animals, "4");
+	}
+
 }
 
 // Графическое движение, ещё не пришло время
 void Data::move(std::list<Animal*>& animals) {
 	for (auto it(animals.begin()); it != animals.end(); it++) {
-		if (!(*it)->Is_dead()) {
 			if ((*it)->get_id() == "4") {
 
 				if (period % (*it)->getMoveTime() == 0) {
 					(*it)->setMoveTime(rand() % 3 + 1);
-					if ((*it)->get_behavior().hunger <= 0.4) {
+					if ((*it)->get_behavior().hunger <= 0.41) {
 						if(check_desiredObj_and_eating((*it), (*it)->get_id_victim(), 2)) continue;
 					}
 					randMove((*it), (*it)->get_id_victim(), 1);
 					continue;
 				}
-				//(*it)->setMoveTime(rand() % 3 + 1);
 			}
 			else if ((*it)->get_id() == "3") {
 				if (period % (*it)->getMoveTime() == 0)
 					randMove((*it), (*it)->get_id_victim(), 3);
 				(*it)->setMoveTime(rand() % 3 + 1);
 			}
-		}
+			else if ((*it)->get_id() == "2") {
+				if ((*it)->get_lifePeriod() % 10 == 0)
+					(*it)->get_behavior().hunger = 0;
+				(*it)->set_lifePeriod((*it)->get_lifePeriod() + 1);
+			}
 	}
 }

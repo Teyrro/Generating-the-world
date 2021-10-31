@@ -25,8 +25,8 @@ struct Engine_lite {
 	int m_size;
 
 	// Параметр отвечает за кол-во объектов
-	Engine_lite(int count_of_creature = 15) : Map(), m_size(count_of_creature) {
-		float percentage_of_the_number[4]{ (m_size * 0.5f),  (m_size * 0.3f) , (m_size * 0.2f) };
+	Engine_lite(int count_of_creature = 20) : Map(), m_size(count_of_creature) {
+		float percentage_of_the_number[4]{ (m_size * 0.6f),  (m_size * 0.3f) , (m_size * 0.1f) };
 		percentage_of_the_number[3] = remainder(percentage_of_the_number[0]) + remainder(percentage_of_the_number[1]) + remainder(percentage_of_the_number[2]);
 		for (int i(0); i < percentage_of_the_number[3]; i++) {
 

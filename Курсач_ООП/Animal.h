@@ -11,6 +11,7 @@ struct Behavior {
 };
 
 class Animal {
+protected:
 	sf::Vector2i m_coord;
 	bool is_dead;
 public:
@@ -46,8 +47,21 @@ public:
 		throw " Вызов не переопределённой виртуальной фунции: behavior";
 	}
 
+	virtual int get_lifePeriod() {
+		throw " Вызов не переопределённой виртуальной фунции: get_lifePeriod";
+	}
+
+	virtual void set_lifePeriod( int lifePeriod) {
+		throw " Вызов не переопределённой виртуальной фунции: get_lifePeriod";
+	}
+
+
 	virtual Animal* init(sf::Vector2i) {
-		throw "Вызов из родительского класса";
+		throw "Вызов init из родительского класса";
+	}
+
+	virtual sf::Vector2i sex(std::string map[12][12]) {
+		throw "Вызов sex из родительского класса";
 	}
 
 	sf::Vector2i& get_coord() {

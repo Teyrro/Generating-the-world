@@ -12,7 +12,7 @@ class Predator : public Animal {
 public:
 	static std::string id_predator;
 	static std::string id_victim;
-	Predator(float hunger = 0.8, float chance = 0.25) : Animal(), m_exception(false), m_moveTime(1) {
+	Predator(float hunger = 1, float chance = 0.25) : Animal(), m_exception(false), m_moveTime(1) {
 		predat.hunger = hunger;
 		predat.The_probability_of_breeding = chance;
 	}
@@ -24,7 +24,8 @@ public:
 	}
 
 	virtual Animal* init(sf::Vector2i a) {
-		Animal* ptr = new Predator;
+		Predator* ptr = new Predator;
+		ptr->m_coord = a;
 		return ptr;
 	}
 
@@ -35,4 +36,6 @@ public:
 	virtual std::string get_id_victim() {
 		return id_victim;
 	}
+
+	virtual sf::Vector2i sex(std::string map[][12]);
 };

@@ -1,5 +1,8 @@
 #pragma once
 #include "Animal.h"
+#include "Herbivore.h"
+#include "Predator.h"
+#include "Plants.h"
 #include "Array.h"
 
 #include <iostream>
@@ -11,7 +14,7 @@
 class Data {
 	const short m_size = 12;
 	static unsigned int period;
-
+	void addAnimal(std::list<Animal*>::iterator &it, std::list<Animal*>& animals, std::string id);
 protected:
 	static std::string map[12][12];
 
@@ -52,17 +55,17 @@ public:
 
 	friend sf::Vector2i sex(Animal& animal);
 
-	void probability(std::list<Animal*>& animals);
+	void probability(std::list<Animal*>& animals, int period);
 
 	void update(std::list<Animal*>& animals) {
 
 		try {
+			
 			check_for_dead(animals);
 			move(animals);
+			probability(animals, period);
 			deathForHunger(animals);
-			//probability(animals);
 			period = ++period;
-			std::cout << "( " << period << " )\n";
 		}
 		catch (const char* excep) {
 			std::cout << "Вызвано исключение: " << excep;
