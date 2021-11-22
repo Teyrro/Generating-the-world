@@ -22,10 +22,19 @@ struct Engine_lite {
 	Predator* c;
 	std::list<Animal*> array_all_classes;
 	Data Map;
+	sf::Texture texture;
+	sf::Sprite obj;
+	// Кол-во кадров
+	static int count_f;
+	// Размер текстуры
+	int obj_size{ 41 };
+
 	int m_size;
 
 	// Параметр отвечает за кол-во объектов
 	Engine_lite(int count_of_creature = 20) : Map(), m_size(count_of_creature) {
+		texture.loadFromFile("Sprites.png");
+		obj.setTexture(texture);
 		float percentage_of_the_number[4]{ (m_size * 0.6f),  (m_size * 0.3f) , (m_size * 0.1f) };
 		percentage_of_the_number[3] = remainder(percentage_of_the_number[0]) + remainder(percentage_of_the_number[1]) + remainder(percentage_of_the_number[2]);
 		for (int i(0); i < percentage_of_the_number[3]; i++) {
@@ -64,4 +73,8 @@ struct Engine_lite {
 		}
 		Map.creature_generation(array_all_classes);
 	}
+
+public:
+	void draw_location(sf::RenderWindow& window);
+	void draw_obj(sf::RenderWindow& window);
 };

@@ -12,11 +12,13 @@ struct Behavior {
 
 class Animal {
 protected:
+
 	sf::Vector2i m_coord;
 	bool is_dead;
 public:
+	sf::Vector2f dcoord;
 	static short count_of_creatures;
-	Animal(int coord_x = 10, int coord_y = 10) : m_coord(coord_x, coord_y), is_dead(false) {
+	Animal(int coord_x = 10, int coord_y = 10) : m_coord(coord_x, coord_y), is_dead(false), dcoord(0, 0){
 		count_of_creatures++;
 	}
 
@@ -31,38 +33,17 @@ public:
 		m_coord = a;
 	}
 
-	virtual int const& getMoveTime() { throw "Вызвана getMove"; }
-	virtual void setMoveTime(int setMoveTime) { throw "Вызвана setMove"; }
+	//Исключения
+	virtual int const& getMoveTime();
+	virtual void setMoveTime(int setMoveTime);
+	virtual std::string get_id();
+	virtual std::string get_id_victim();
+	virtual Behavior& get_behavior();
+	virtual int get_lifePeriod();
+	virtual void set_lifePeriod(int lifePeriod);
 
-	virtual std::string get_id() {
-		throw NULL;
-	}
-
-	virtual std::string get_id_victim() {
-		throw NULL;
-	}
-
-	//Обязательно Используйте исключения
-	virtual Behavior& get_behavior() {
-		throw " Вызов не переопределённой виртуальной фунции: behavior";
-	}
-
-	virtual int get_lifePeriod() {
-		throw " Вызов не переопределённой виртуальной фунции: get_lifePeriod";
-	}
-
-	virtual void set_lifePeriod( int lifePeriod) {
-		throw " Вызов не переопределённой виртуальной фунции: get_lifePeriod";
-	}
-
-
-	virtual Animal* init(sf::Vector2i) {
-		throw "Вызов init из родительского класса";
-	}
-
-	virtual sf::Vector2i sex(std::string map[12][12]) {
-		throw "Вызов sex из родительского класса";
-	}
+	virtual Animal* init(sf::Vector2i);
+	virtual sf::Vector2i sex(std::string map[12][12]);
 
 	sf::Vector2i& get_coord() {
 		return m_coord;

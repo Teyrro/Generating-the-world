@@ -17,8 +17,9 @@ class Data {
 	void addAnimal(std::list<Animal*>::iterator &it, std::list<Animal*>& animals, std::string id);
 protected:
 	static std::string map[12][12];
-
+	static std::string location[12][12];
 public:
+	
 	// Создание текстовой карты
 	Data() {
 		for (int i(0); i < m_size; i++) {
@@ -34,6 +35,9 @@ public:
 		}
 	}
 
+	unsigned int get_period() {
+		return period;
+	}
 	// Генерация объектов на текстовой карте
 	void creature_generation(std::list<Animal*>& object);
 
@@ -60,11 +64,10 @@ public:
 	void update(std::list<Animal*>& animals) {
 
 		try {
-			
+			deathForHunger(animals);
 			check_for_dead(animals);
 			move(animals);
 			probability(animals, period);
-			deathForHunger(animals);
 			period = ++period;
 		}
 		catch (const char* excep) {

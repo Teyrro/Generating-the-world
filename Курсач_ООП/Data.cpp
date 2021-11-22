@@ -14,6 +14,8 @@ unsigned int Data::period(1);
 // Заполнение карты пустотой 
 std::string Data::map[12][12]{};
 
+std::string Data::location[12][12]{};
+
 // Генерация объектов на текстовой карте
 void Data::creature_generation(std::list<Animal*>& object) {
 	std::vector<int> index(object.size());
@@ -55,7 +57,6 @@ void Data::check_for_dead(std::list<Animal*>& animals) {
 			auto itTemp = it;
 			it++;
 			animals.erase(itTemp);
-			//(*it)->set_is_dead(true);
 			continue;
 		}
 		it++;
@@ -72,7 +73,13 @@ bool Data::check_desiredObj_and_eating(Animal* animal, std::string desiredObj, i
 				if (map[temp.y][temp.x] == desiredObj) {
 					map[temp.y][temp.x] = map[animal->get_coord().y][animal->get_coord().x];
 					map[animal->get_coord().y][animal->get_coord().x] = "0";
-					animal->set_coord(animal->get_coord().x + i, animal->get_coord().y + j);
+
+					animal->dcoord.x = temp.x - animal->get_coord().x;
+					animal->dcoord.y = temp.y - animal->get_coord().y;
+
+					animal->set_coord(temp);
+					
+
 					if((animal)->get_behavior().hunger < 0.999)
 						(animal)->get_behavior().hunger += 0.2f;
 					return true;
@@ -95,6 +102,9 @@ void Data::randMove(Animal* &animal, std::string victim, int radius) {
 				map[temp.y][temp.x] = map[animal->get_coord().y][animal->get_coord().x];
 				map[animal->get_coord().y][animal->get_coord().x] = "0";
 				*animal += offset;
+				animal->dcoord.x = offset.x;
+				animal->dcoord.y = offset.y;
+
 				if (map[temp.y][temp.x] == victim) {
 					if ((animal)->get_behavior().hunger < 0.999)
 						(animal)->get_behavior().hunger += 0.2f;
@@ -155,7 +165,6 @@ void Data::probability(std::list<Animal*>& animals, int period) {
 		
 	it = animals.end();
 	it--;
-	//advance(it, (*it)->count_of_creatures - 1);
 
 	int predat_count(0);
 	for (it; (*it)->get_id() != "2" and it != animals.begin(); it--) {
@@ -163,7 +172,6 @@ void Data::probability(std::list<Animal*>& animals, int period) {
 			if ((*it)->get_behavior().hunger >= 0.39f) {
 				unsigned short percent(1 / (*it)->get_behavior().The_probability_of_breeding), probability(rand() % percent);
 				if (probability == 0) {
-					//sf::Vector2i coord_new_animal(sex(*(*it)));
 					addAnimal(it, animals, (*it)->get_id());
 				}
 			}
@@ -194,9 +202,13 @@ void Data::move(std::list<Animal*>& animals) {
 				}
 			}
 			else if ((*it)->get_id() == "3") {
-				if (period % (*it)->getMoveTime() == 0)
+				if (period % (*it)->getMoveTime() == 0) {
+					if ((*it)->get_behavior().hunger <= 0.41) {
+						if (check_desiredObj_and_eating((*it), (*it)->get_id_victim(), 1)) continue;
+					}
 					randMove((*it), (*it)->get_id_victim(), 3);
-				(*it)->setMoveTime(rand() % 3 + 1);
+					(*it)->setMoveTime(rand() % 3 + 1);
+				}
 			}
 			else if ((*it)->get_id() == "2") {
 				if ((*it)->get_lifePeriod() % 10 == 0)

@@ -11,8 +11,7 @@ class Plants : public Animal {
 	int m_lifePeriod;
 public:
 	static std::string id_plant;
-	Plants(float hunger = 1, float chance = NULL) : Animal() {
-		m_lifePeriod = 1;
+	Plants(float hunger = 1, float chance = NULL) : Animal(), m_lifePeriod(1) {
 		plant.hunger = hunger;
 		plant.The_probability_of_breeding = chance;
 	}

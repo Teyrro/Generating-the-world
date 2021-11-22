@@ -161,6 +161,9 @@
     <ClInclude Include="Plants.h" />
     <ClInclude Include="Predator.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Sprites.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\sfml_graphics.redist.2.5.1\build\native\sfml_graphics.redist.targets" Condition="Exists('..\packages\sfml_graphics.redist.2.5.1\build\native\sfml_graphics.redist.targets')" />
