@@ -37,5 +37,5 @@ public:
 		return id_victim;
 	}
 
-	virtual sf::Vector2i sex(std::string map[][12]);
+	virtual sf::Vector2i sex(std::string map[][12], std::list<Animal*>::iterator& it);
 };

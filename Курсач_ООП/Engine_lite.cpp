@@ -7,15 +7,54 @@ float remainder(float a) {
 }
 
 void Engine_lite::draw_location(sf::RenderWindow& window) {
-	obj.setTexture(texture);
-	obj.setTextureRect(sf::IntRect(0, 0, obj_size, obj_size));
-	for (int i(0); i < obj_size *12; i += obj_size) {
-		for (int j(0); j < obj_size * 12; j += obj_size) {
-			obj.setPosition(i, j);
+	
+	for (int i = 0; i < 12; i++)
+		for (int j = 0; j < 12; j++) {
+			obj.setTexture(texture);
+			switch (renderedMap[i][j]){
+			case 0:
+				obj.setTextureRect(sf::IntRect(0, 0, obj_size, obj_size));
+				break;
+			case 1:
+				obj.setTextureRect(sf::IntRect(6 * obj_size, 0, obj_size, obj_size));
+				break;
+			case 2:
+				obj.setTextureRect(sf::IntRect(10 * obj_size, 0, obj_size, obj_size));
+				break;
+			case 3:
+				obj.setTextureRect(sf::IntRect(8 * obj_size, 0, obj_size, obj_size));
+				break;
+			case 4:
+				obj.setTextureRect(sf::IntRect(12 * obj_size, 0, obj_size, obj_size));
+				break;
+			case 5:
+				obj.setTextureRect(sf::IntRect(7 * obj_size, 0, obj_size, obj_size));
+				break;
+			case 6:
+				obj.setTextureRect(sf::IntRect(5 * obj_size, 0, obj_size, obj_size));
+				break;
+			case 7:
+				obj.setTextureRect(sf::IntRect(11 * obj_size, 0, obj_size, obj_size));
+				break;
+			case 8:
+				obj.setTextureRect(sf::IntRect(9 * obj_size, 0, obj_size, obj_size));
+				break;
+			case 9:
+				obj.setTextureRect(sf::IntRect(4 * obj_size, 0, obj_size, obj_size));
+				break;
+			}
+			obj.setPosition(i * obj_size, j * obj_size);
 			window.draw(obj);
 		}
-		
-	}
+			
+	//obj.setTextureRect(sf::IntRect(0, 0, obj_size, obj_size));
+	//for (int i(0); i < obj_size *12; i += obj_size) {
+	//	for (int j(0); j < obj_size * 12; j += obj_size) {
+	//		obj.setPosition(i, j);
+	//		window.draw(obj);
+	//	}
+	//	
+	//}
 }
 
 void Engine_lite::draw_obj(sf::RenderWindow& window) {
@@ -39,7 +78,7 @@ void Engine_lite::draw_obj(sf::RenderWindow& window) {
 		}
 
 		sf::Vector2f start_coord(((*it)->get_coord().x - (*it)->dcoord.x) * obj_size, ((*it)->get_coord().y - (*it)->dcoord.y) * obj_size);
-		sf::Vector2f offset_object(((*it)->dcoord.x * obj_size / 120.f) * count_f, ((*it)->dcoord.y * obj_size / 120.f) * count_f);
+		sf::Vector2f offset_object(((*it)->dcoord.x * obj_size / 119.f) * count_f, ((*it)->dcoord.y * obj_size / 119.f) * count_f);
 		
 		sf::Vector2f hui_v_palito(start_coord + offset_object);
 		obj.setPosition(hui_v_palito);
@@ -51,6 +90,36 @@ void Engine_lite::draw_obj(sf::RenderWindow& window) {
 		}
 	}
 	count_f++;
+}
 
+void Engine_lite::createMap(int map[][12]) {
+	srand((unsigned int)time(NULL));
+	int lakeCount = rand() % 12 +5;
+	std::vector<int> lake;
+	lake.resize(lakeCount);
+	map[0][0] = 1;
+	map[11][11] = 2;
+	map[11][0] = 3;
+	map[0][11] = 4;
+	for (int i = 1; i < 11; i++) {
+		map[i][0] = 5;
+		map[0][i] = 6;
+		map[i][11] = 7;
+		map[11][i] = 8;
+	}
+	for (int i = 1; i < 11; i++)
+		for (int j = 1; j < 11; j++)
+			map[i][j] = 0;
+
+	sf::Vector2i lakeCord;
+	for (int i = 0; i < lakeCount; i++) {
+		do {
+			lakeCord.x = rand() % 10 + 1;
+			lakeCord.y = rand() % 10 + 1;
+		} while (map[lakeCord.x][lakeCord.y] != 0);
+		map[lakeCord.x][lakeCord.y] = 9;
+	}
+		
+	
 }
 

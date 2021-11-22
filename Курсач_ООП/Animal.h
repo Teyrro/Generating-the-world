@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <memory>
+#include <list>
 #include <string>
 
 struct Behavior {
@@ -43,7 +44,7 @@ public:
 	virtual void set_lifePeriod(int lifePeriod);
 
 	virtual Animal* init(sf::Vector2i);
-	virtual sf::Vector2i sex(std::string map[12][12]);
+	virtual sf::Vector2i sex(std::string map[12][12], std::list<Animal*>::iterator& it);
 
 	sf::Vector2i& get_coord() {
 		return m_coord;

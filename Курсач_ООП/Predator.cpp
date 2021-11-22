@@ -3,7 +3,7 @@
 std::string Predator::id_predator("4");
 std::string Predator::id_victim("3");
 
-sf::Vector2i Predator::sex(std::string map[][12]) {
+sf::Vector2i Predator::sex(std::string map[][12], std::list<Animal*>::iterator& it) {
     sf::Vector2i orig_cord;
     for (int i(0); i < 30; i++) {
         if (rand() % 2)

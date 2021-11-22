@@ -49,6 +49,6 @@ Animal* Animal::init(sf::Vector2i) {
 	throw "Вызов init из родительского класса";
 }
 
-sf::Vector2i Animal::sex(std::string map[12][12]) {
+sf::Vector2i Animal::sex(std::string map[12][12], std::list<Animal*>::iterator& it) {
 	throw "Вызов sex из родительского класса";
 }

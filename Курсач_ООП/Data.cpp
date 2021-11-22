@@ -141,7 +141,7 @@ void Data::addAnimal(std::list<Animal*>::iterator &it, std::list<Animal*>& anima
 	if (id == "2") newAnimal = new Plants;
 	else if (id == "3") newAnimal = new Herbivore;
 	else newAnimal = new Predator;
-	sf::Vector2i coord_new_animal(newAnimal->sex(map));
+	sf::Vector2i coord_new_animal(newAnimal->sex(map, it));
 	if (coord_new_animal.x == -1) {
 		delete newAnimal;
 		return;
@@ -172,7 +172,7 @@ void Data::probability(std::list<Animal*>& animals, int period) {
 			if ((*it)->get_behavior().hunger >= 0.39f) {
 				unsigned short percent(1 / (*it)->get_behavior().The_probability_of_breeding), probability(rand() % percent);
 				if (probability == 0) {
-					addAnimal(it, animals, (*it)->get_id());
+					addAnimal(it, animals, "3");
 				}
 			}
 		}

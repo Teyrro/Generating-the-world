@@ -19,7 +19,7 @@ public:
 	virtual Behavior& get_behavior() {
 		return plant;
 	}
-	virtual sf::Vector2i sex(std::string map[][12]);
+	virtual sf::Vector2i sex(std::string map[][12], std::list<Animal*>::iterator& it);
 	virtual std::string get_id() {
 		return id_plant;
 	}

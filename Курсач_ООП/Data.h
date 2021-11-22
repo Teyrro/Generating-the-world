@@ -64,10 +64,13 @@ public:
 	void update(std::list<Animal*>& animals) {
 
 		try {
-			deathForHunger(animals);
 			check_for_dead(animals);
-			move(animals);
 			probability(animals, period);
+			deathForHunger(animals);
+			
+			
+			move(animals);
+			
 			period = ++period;
 		}
 		catch (const char* excep) {
