@@ -58,7 +58,7 @@ void Engine_lite::draw_location(sf::RenderWindow& window) {
 }
 
 void Engine_lite::draw_obj(sf::RenderWindow& window) {
-	int k = 1;
+	int k = 1, f = 0;
 	std::list<Animal*> ::iterator it(array_all_classes.begin());
 	for (it; it != array_all_classes.end(); it++) {
 		if ((*it)->get_id() == "2" and k != 2) {
@@ -77,12 +77,15 @@ void Engine_lite::draw_obj(sf::RenderWindow& window) {
 				k = 4;
 		}
 
-		sf::Vector2f start_coord(((*it)->get_coord().x - (*it)->dcoord.x) * obj_size, ((*it)->get_coord().y - (*it)->dcoord.y) * obj_size);
-		sf::Vector2f offset_object(((*it)->dcoord.x * obj_size / 119.f) * count_f, ((*it)->dcoord.y * obj_size / 119.f) * count_f);
-		
-		sf::Vector2f hui_v_palito(start_coord + offset_object);
-		obj.setPosition(hui_v_palito);
-		window.draw(obj);
+			sf::Vector2f start_coord(((*it)->get_coord().x - (*it)->dcoord.x) * obj_size, ((*it)->get_coord().y - (*it)->dcoord.y) * obj_size);
+			sf::Vector2f offset_object(((*it)->dcoord.x * obj_size / 119.f) * count_f, (((*it)->dcoord.y * obj_size / 119.f) * count_f));
+			
+			sf::Vector2f hui_v_palito(start_coord + offset_object);
+			obj.setPosition(hui_v_palito);
+			window.draw(obj);
+
+			std::cout << "( " << hui_v_palito.x << " " << hui_v_palito.y << " ) \n";
+			f = 1;
 		
 		if (((*it)->dcoord.x != 0 or (*it)->dcoord.y != 0) and count_f == 119) {
 			(*it)->dcoord.x = 0;

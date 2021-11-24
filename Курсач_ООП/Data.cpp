@@ -68,8 +68,8 @@ void Data::check_for_dead(std::list<Animal*>& animals) {
 bool Data::check_desiredObj_and_eating(Animal* animal, std::string desiredObj, int radius) {
 	for (int i(-radius); i <= radius; i++)
 		for (int j(-radius); j <= radius; j++) {
-			sf::Vector2i temp((animal->get_coord().x + i), (animal->get_coord().y + j));
-			if ((temp.x) / m_size == 0 and (temp.y) / m_size == 0)
+			sf::Vector2i temp((animal->get_coord().x + i), (animal->get_coord().y + j)), zero(0,0);
+			if (((temp / int(m_size)) == zero) and (temp.x > zero.x and temp.y > zero.y))
 				if (map[temp.y][temp.x] == desiredObj) {
 					map[temp.y][temp.x] = map[animal->get_coord().y][animal->get_coord().x];
 					map[animal->get_coord().y][animal->get_coord().x] = "0";
@@ -92,12 +92,12 @@ bool Data::check_desiredObj_and_eating(Animal* animal, std::string desiredObj, i
 // victim - жертва
 void Data::randMove(Animal* &animal, std::string victim, int radius) {
 
-	sf::Vector2i offset;
+	sf::Vector2i offset, zero(0,0);
 	for (int i(0); i < 25; i++) {
 		offset.x = radius - rand() % (2 * radius + 1);
 		offset.y = radius - rand() % (2 * radius + 1);
-		if ((animal->get_coord().x + offset.x) / m_size == 0 and (animal->get_coord().y + offset.y) / m_size == 0) {
-			sf::Vector2i temp((animal->get_coord().x + offset.x), (animal->get_coord().y + offset.y));
+		sf::Vector2i temp((animal->get_coord().x + offset.x), (animal->get_coord().y + offset.y));
+		if (((temp / int(m_size)) == zero) and (temp.x > zero.x and temp.y > zero.y)) {
 			if ((offset.x != 0 or offset.y != 0) and (map[temp.y][temp.x] == "0" or map[temp.y][temp.x] == victim)) {
 				map[temp.y][temp.x] = map[animal->get_coord().y][animal->get_coord().x];
 				map[animal->get_coord().y][animal->get_coord().x] = "0";
@@ -168,7 +168,7 @@ void Data::probability(std::list<Animal*>& animals, int period) {
 
 	int predat_count(0);
 	for (it; (*it)->get_id() != "2" and it != animals.begin(); it--) {
-		if ((*it)->get_id() != "4") {
+		if ((*it)->get_id() == "3") {
 			if ((*it)->get_behavior().hunger >= 0.39f) {
 				unsigned short percent(1 / (*it)->get_behavior().The_probability_of_breeding), probability(rand() % percent);
 				if (probability == 0) {
@@ -203,9 +203,6 @@ void Data::move(std::list<Animal*>& animals) {
 			}
 			else if ((*it)->get_id() == "3") {
 				if (period % (*it)->getMoveTime() == 0) {
-					if ((*it)->get_behavior().hunger <= 0.41) {
-						if (check_desiredObj_and_eating((*it), (*it)->get_id_victim(), 1)) continue;
-					}
 					randMove((*it), (*it)->get_id_victim(), 3);
 					(*it)->setMoveTime(rand() % 3 + 1);
 				}

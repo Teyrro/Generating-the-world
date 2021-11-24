@@ -19,7 +19,7 @@ protected:
 public:
 	sf::Vector2f dcoord;
 	static short count_of_creatures;
-	Animal(int coord_x = 10, int coord_y = 10) : m_coord(coord_x, coord_y), is_dead(false), dcoord(0, 0){
+	Animal(int coord_x = 10, int coord_y = 10) : m_coord(coord_x, coord_y), is_dead(false), dcoord(0, 0) {
 		count_of_creatures++;
 	}
 

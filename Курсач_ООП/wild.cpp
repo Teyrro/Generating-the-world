@@ -13,7 +13,7 @@ int main() {
 
 
 	Engine_lite a;
-	a.Map.update(a.array_all_classes);
+
 	std::cout << a.Map;
 	while (window.isOpen())
 	{
@@ -25,7 +25,7 @@ int main() {
 				window.close();
 		}
 		
-		if (time >= 16) {
+		if (time >= 10) {
 			if (a.count_f == 120) {
 				a.Map.update(a.array_all_classes);
 				std::cout << a.Map;
@@ -35,25 +35,10 @@ int main() {
 			a.draw_location(window);
 			a.draw_obj(window);
 			clock.restart();
+			window.display();
 		}
-		window.display();
+	
 		
 	}
 
 }
-
-//std::cout << a.Map << "\n";
-//int i = 0;
-//while (true) {
-//	float time(clock.getElapsedTime().asMilliseconds());
-//
-//	//std::cout << time << " ";
-//
-//	if (time == 2000) {
-//		i++;
-//		std::cout << "Период: " << i << "\n";
-//		a.Map.update(a.array_all_classes);
-//		std::cout << a.Map << "\n";
-//		clock.restart();
-//	}
-//}

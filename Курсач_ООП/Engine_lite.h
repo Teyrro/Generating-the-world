@@ -76,6 +76,7 @@ struct Engine_lite {
 				array_all_classes.push_back(&c[i - static_cast<int>(percentage_of_the_number[0] + percentage_of_the_number[1])]);
 		}
 		Map.creature_generation(array_all_classes);
+		Map.update(array_all_classes);
 	}
 
 public:

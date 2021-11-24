@@ -67,10 +67,7 @@ public:
 			check_for_dead(animals);
 			probability(animals, period);
 			deathForHunger(animals);
-			
-			
 			move(animals);
-			
 			period = ++period;
 		}
 		catch (const char* excep) {
