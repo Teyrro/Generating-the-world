@@ -84,7 +84,7 @@ void Engine_lite::draw_obj(sf::RenderWindow& window) {
 			obj.setPosition(hui_v_palito);
 			window.draw(obj);
 
-			std::cout << "( " << hui_v_palito.x << " " << hui_v_palito.y << " ) \n";
+			//std::cout << "( " << hui_v_palito.x << " " << hui_v_palito.y << " ) \n";
 			f = 1;
 		
 		if (((*it)->dcoord.x != 0 or (*it)->dcoord.y != 0) and count_f == 119) {

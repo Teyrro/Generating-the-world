@@ -37,9 +37,9 @@ public:
 	//Исключения
 	virtual int const& getMoveTime();
 	virtual void setMoveTime(int setMoveTime);
-	virtual std::string get_id();
+	virtual std::string get_id() = 0;
 	virtual std::string get_id_victim();
-	virtual Behavior& get_behavior();
+	virtual Behavior& get_behavior() = 0;
 	virtual int get_lifePeriod();
 	virtual void set_lifePeriod(int lifePeriod);
 
