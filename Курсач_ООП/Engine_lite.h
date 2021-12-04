@@ -36,7 +36,7 @@ struct Engine_lite {
 	// Параметр отвечает за кол-во объектов
 	Engine_lite(int count_of_creature = 20) : Map(), m_size(count_of_creature) {
 		
-		texture.loadFromFile("Sprites.png");
+		texture.loadFromFile("Sprite.png");
 		createMap(renderedMap);
 		obj.setTexture(texture);
 		float percentage_of_the_number[4]{ (m_size * 0.6f),  (m_size * 0.3f) , (m_size * 0.1f) };

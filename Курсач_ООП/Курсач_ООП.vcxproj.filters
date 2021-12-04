@@ -67,5 +67,8 @@
     <Image Include="Sprites.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="Sprite.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>
